@@ -51,6 +51,19 @@ export function mostOffensesTotalByYearAndType(year,offenseType) {
     return [state, maxCrimes];
 }
 
+export function leastOffensesTotalByYearAndType(year,offenseType) {
+    var minCrimes = crimeData.crimesStateYear[0].data.filter( data => data.Year === year)[0][offenseType];
+    var state;
+    for (var i = 1; i < crimeData.crimesStateYear.length; i++) {
+        var stateData = crimeData.crimesStateYear[i].data.filter( data => data.Year === year)[0];
+        if (minCrimes > stateData[offenseType]){
+            minCrimes =  stateData[offenseType];
+            state = crimeData.crimesStateYear[i].state;
+        }
+    }
+    return [state, minCrimes];
+}
+
 //This function returns all the data for a specific state
 export function allDataByState(state) {
     return crimeData.crimesStateYear.filter( stateData => stateData.state === state)[0];
