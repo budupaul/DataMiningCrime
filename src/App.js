@@ -5,7 +5,7 @@ import { Dropdown } from 'semantic-ui-react'
 import { leastOffensesTotalByYearAndType, mostOffensesByType,biggestOffenseRateAverageByType, mostOffensesTotalByYearAndType, allDataByState,allDataByStateAndYear, allStateDataTotalByType, allStateDataTotalByTypeAndYear, allDataByYear, 
   numberOfTotalOffensesForStateAndOffense, numberOfTotalOffensesForStateAndYear, leastOffensesByType, 
   mostOffensesByYear, leastOffensesByYear, populateMapNumbersByYear, numberOfTotalOffensesForState,
-  mostOffenses, leastOffenses, allData} from './Scripts/Statistics'
+  mostOffenses, leastOffenses, allData, chooseOption} from './Scripts/Statistics'
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 class App extends Component {
@@ -24,6 +24,15 @@ class App extends Component {
     console.log(allStateDataTotalByType("Aggravated assault"));
     console.log(allStateDataTotalByTypeAndYear('Murder and nonnegligent Manslaughter', 2014));
     console.log('Here');
+
+    this.state = {
+      optionsYear: [
+         {key:'',value:''},
+       ],
+       optionsOffense: [
+        {key:'',value:''},
+      ]
+    }
   }
 
   /* optional customization of filling per state and calling custom callbacks per state */
@@ -1235,6 +1244,26 @@ class App extends Component {
     return data;
   }
 
+  chooseOption(optionYear, optionOffense){
+    
+    if(optionYear == null && optionOffense == null)
+    {
+      return this.populateMapNumbers(allData());
+    }
+    else if(optionYear != null && optionOffense == null)
+    {
+      return this.populateMapNumbersByYear(allDataByYear(optionYear),optionYear);
+    }
+    else if(optionYear == null && optionOffense != null)
+    {
+      return this.populateMapNumbersByOffense(allStateDataTotalByType(optionOffense),optionOffense);
+    }
+    else if(optionYear != null && optionOffense != null)
+    {
+      return this.populateMapNumbersByOffenseAndYear(allStateDataTotalByTypeAndYear(optionOffense, optionYear),optionOffense, optionYear);
+    }
+  }
+
   classifyColors(number, min, max){
     var step = (max-min)/5
     var limit1 = min + step;
@@ -1254,7 +1283,7 @@ class App extends Component {
   }
 
   render() {
-    var completeData = this.populateMapNumbersByYear(allData());
+    var completeData = this.populateMapNumbers(allData());
     console.log(completeData);
     return (
       <div className="App">
