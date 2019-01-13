@@ -1289,7 +1289,11 @@ class App extends Component {
       <div className="App">
         <USAMap customize={completeData} onClick={this.mapHandler} />
       </div>
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 74441eee2e7ac829007db09a16494fa56dfbaeba
     );
   }
 }
