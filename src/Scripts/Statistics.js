@@ -44,7 +44,6 @@ export function mostOffensesByYear(year) {
     var offenses = ["Violent crime total", 
     "Murder and nonnegligent Manslaughter",
     "Legacy rape",
-    "Revised rape",
     "Robbery",
     "Aggravated assault",
     "Property crime total",
@@ -55,7 +54,7 @@ export function mostOffensesByYear(year) {
         var stateData = crimeData.crimesStateYear[i].data;
         var tempMax = 0;
         for (var j = 0; j < stateData.length; j++) {
-            if (stateData[j]["Year"] == year){
+            if (stateData[j]["Year"] === year){
                 for(var k = 0; k < offenses.length; k++){
                     tempMax += stateData[j][offenses[k]];
                 }
@@ -76,7 +75,6 @@ export function leastOffensesByYear(year) {
     var offenses = ["Violent crime total", 
     "Murder and nonnegligent Manslaughter",
     "Legacy rape",
-    "Revised rape",
     "Robbery",
     "Aggravated assault",
     "Property crime total",
@@ -87,7 +85,7 @@ export function leastOffensesByYear(year) {
         var stateData = crimeData.crimesStateYear[i].data;
         var tempMin = 0;
         for (var j = 0; j < stateData.length; j++) {
-            if (stateData[j]["Year"] == year){
+            if (stateData[j]["Year"] === year){
                 for(var k = 0; k < offenses.length; k++){
                     tempMin += stateData[j][offenses[k]];
                 }
@@ -154,7 +152,6 @@ export function mostOffenses() {
     var offenses = ["Violent crime total", 
                 "Murder and nonnegligent Manslaughter",
                 "Legacy rape",
-                "Revised rape",
                 "Robbery",
                 "Aggravated assault",
                 "Property crime total",
@@ -184,7 +181,6 @@ export function leastOffenses() {
     var offenses = ["Violent crime total", 
     "Murder and nonnegligent Manslaughter",
     "Legacy rape",
-    "Revised rape",
     "Robbery",
     "Aggravated assault",
     "Property crime total",
@@ -213,8 +209,8 @@ export function allDataByState(state) {
 }
 
 //This function returns all the data for all the states
-export function allData(state) {
-    return crimeData.crimesStateYear[0];
+export function allData() {
+    return crimeData.crimesStateYear;
 }
 
 //Same as before, for a specific year
@@ -278,12 +274,10 @@ export function allStateDataTotalByTypeAndYear(offenseType, year) {
 export function numberOfTotalOffensesForStateAndOffense(state, offense) {
 
     var nrCrimes = 0;
-    var crimes = [];
 
-    crimes = allDataByState(state);
-
+    var crimes = allDataByState(state).data;
     for (var i = 0; i < crimes.length; i++) {
-        nrCrimes += crimes[i].data.offenses[offense];
+        nrCrimes += crimes[i][offense];
     }
     return nrCrimes;
 }
@@ -297,7 +291,6 @@ export function numberOfTotalOffensesForStateAndYear(state, year) {
     var offenses = ["Violent crime total", 
                 "Murder and nonnegligent Manslaughter",
                 "Legacy rape",
-                "Revised rape",
                 "Robbery",
                 "Aggravated assault",
                 "Property crime total",
@@ -305,12 +298,9 @@ export function numberOfTotalOffensesForStateAndYear(state, year) {
                 "Larceny-theft",
                 "Motor vehicle theft"];
 
-    crimes = allDataByStateAndYear(state, year);
-
-    for (var i = 0; i < crimes.length; i++) {
-        for (var j = 0; j < offenses.length; j++) {
-            nrCrimes += crimes[i].data.offenses[j];
-        }
+    crimes = allDataByStateAndYear(state, year).data;
+    for (var j = 0; j < offenses.length; j++) {
+        nrCrimes += crimes[offenses[j]];
     }
     return nrCrimes;
 }
@@ -324,7 +314,6 @@ export function numberOfTotalOffensesForState(state) {
     var offenses = ["Violent crime total", 
                 "Murder and nonnegligent Manslaughter",
                 "Legacy rape",
-                "Revised rape",
                 "Robbery",
                 "Aggravated assault",
                 "Property crime total",
@@ -332,11 +321,10 @@ export function numberOfTotalOffensesForState(state) {
                 "Larceny-theft",
                 "Motor vehicle theft"];
 
-    crimes = allDataByState(state);
-
+    crimes = allDataByState(state).data;
     for (var i = 0; i < crimes.length; i++) {
         for (var j = 0; j < offenses.length; j++) {
-            nrCrimes += crimes[i].data.offenses[j];
+            nrCrimes += crimes[i][offenses[j]];
         }
     }
     return nrCrimes;

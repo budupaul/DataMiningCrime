@@ -11724,7 +11724,7 @@ export var crimeData = {
                     }]
                 },
                 {
-                    "state": "Mexico",
+                    "state": "New Mexico",
                     "data": [{
                         "Year": 2000,
                         "Population": 1819046,
